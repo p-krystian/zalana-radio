@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <title>Zalane Radio</title>
+  <meta charset="UTF-8" />
+  <meta property="og:locale" content="pl_PL" />
+  <meta name="description" content="Odtwarzacz radia Zalanej Piwnicy" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#00a86b" />
+  <link rel="icon" href="./radio-files/favicon.svg" />
+  <link rel="prefetch" href="./radio-files/digit.otf" as="font" />
+  <link rel="stylesheet" href="./radio-files/player-styles.css" type="text/css" />
+  <script type="text/javascript" defer src="./radio-files/playerJS.js"></script>
+</head>
+<body>
+<article class="player">
+  <svg viewBox="0 0 170 26" xmlns="http://www.w3.org/2000/svg" class="pyr-antenna">
+    <path
+      d="M 142.86518 0.040824382 L 9.9528809 26.458333 L 31.669902 26.458333 L 143.69149 4.1935425 A 2.1166649 2.1166649 0 0 0 145.35547 1.7032552 A 2.1166649 2.1166649 0 0 0 142.86518 0.040824382 z "
+    />
+  </svg>
+  <div class="pyr-front">
+    <div>
+      <div class="pyr-speaker">
+        <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="48" cy="48" r="8" />
+          <circle cx="464" cy="48" r="8" />
+          <circle cx="256" cy="256" r="210" fill="none" />
+          <circle cx="48" cy="464" r="8" />
+          <circle cx="464" cy="464" r="8" />
+        </svg>
+        <div class="pyr-membrane"></div>
+      </div>
+      <div class="pyr-volume">
+        <label for="vol">VOL</label>
+        <input type="range" min="0" max="1" step="0.01" value="0.5" id="pyr-vol" />
+      </div>
+    </div>
+    <div>
+      <div class="pyr-display">
+        <span id="pyr-date">00.00.0000</span>
+        <div id="pyr-title">
+          <span>WCZYTYWANIE</span>
+        </div>
+        <div class="pyr-duration">
+          <span id="pyr-current">00:00</span> / <span id="pyr-total">00:00</span>
+        </div>
+      </div>
+      <div class="pyr-controls">
+        <div class="pyr-btn-wrap"><button type="button" value="Do tyłu" id="pyr-backward">
+          <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+            <title>Przewiń w tył</title>
+            <path d="M256 448c106 0 192-86 192-192S362 64 256 64 64 150 64 256s86 192 192 192z" fill="none" stroke-miterlimit="10" stroke-width="32"/>
+            <path d="M192 176a16 16 0 0116 16v53l111.68-67.46a10.78 10.78 0 0116.32 9.33v138.26a10.78 10.78 0 01-16.32 9.31L208 267v53a16 16 0 01-32 0V192a16 16 0 0116-16z"/>
+          </svg>
+        </button></div>
+        <div class="pyr-btn-wrap"><button type="button" value="Stop" id="pyr-stop">
+          <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+            <title>Stop</title>
+            <path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke-miterlimit="10" stroke-width="32"/>
+            <path d="M310.4 336H201.6a25.62 25.62 0 01-25.6-25.6V201.6a25.62 25.62 0 0125.6-25.6h108.8a25.62 25.62 0 0125.6 25.6v108.8a25.62 25.62 0 01-25.6 25.6z"/>
+          </svg>
+        </button></div>
+        <div class="pyr-btn-wrap"><button type="button" value="Odtwarzaj" id="pyr-play">
+          <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+            <title>Odtwarzaj</title>
+            <path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke-miterlimit="10" stroke-width="32"/>
+            <path d="M216.32 334.44l114.45-69.14a10.89 10.89 0 000-18.6l-114.45-69.14a10.78 10.78 0 00-16.32 9.31v138.26a10.78 10.78 0 0016.32 9.31z"/>
+          </svg>
+        </button></div>
+        <div class="pyr-btn-wrap"><button type="button" value="Pauza" id="pyr-pause">
+          <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+            <title>Pauza</title>
+            <path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke-miterlimit="10" stroke-width="32"/>
+            <path fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M208 192v128M304 192v128"/>
+          </svg>
+        </button></div>
+        <div class="pyr-btn-wrap"><button type="button" value="Do przodu" id="pyr-forward">
+          <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+            <title>Przewiń w przód</title>
+            <path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke-miterlimit="10" stroke-width="32"/>
+            <path d="M320 176a16 16 0 00-16 16v53l-111.68-67.44a10.78 10.78 0 00-16.32 9.31v138.26a10.78 10.78 0 0016.32 9.31L304 267v53a16 16 0 0032 0V192a16 16 0 00-16-16z"/>
+          </svg>
+        </button></div>
+      </div>
+      <div class="pyr-regulation">
+        <div>
+          <label for="s">S</label>
+          <div class="pyr-btn-wrap">
+            <button type="button" class="pyr-small" id="pyr-sdown" value="Mniej">
+              <svg viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
+                <title>Mniej</title>
+                <line stroke-linecap="round" stroke-linejoin="round" stroke-width="3" x1="4" x2="21" y1="13" y2="13"/>
+              </svg>
+            </button>
+          </div>
+          <input type="number" min="1" max="9" value="1" step="1" id="pyr-s" />
+          <div class="pyr-btn-wrap">
+            <button type="button" class="pyr-small" id="pyr-sup" value="Więcej">
+              <svg viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
+                <title>Więcej</title>
+                <line stroke-linecap="round" stroke-linejoin="round" stroke-width="3" x1="13" x2="13" y1="21" y2="4"/>
+                <line stroke-linecap="round" stroke-linejoin="round" stroke-width="3" x1="4" x2="21" y1="13" y2="13"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div>
+          <label for="e">E</label>
+          <div class="pyr-btn-wrap">
+            <button type="button" class="pyr-small" id="pyr-edown" value="Mniej">
+              <svg viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
+                <title>Mniej</title>
+                <line stroke-linecap="round" stroke-linejoin="round" stroke-width="3" x1="4" x2="21" y1="13" y2="13"/>
+              </svg>
+            </button>
+          </div>
+          <input type="number" min="1" max="10" value="1" step="1" id="pyr-e" />
+          <div class="pyr-btn-wrap">
+            <button type="button" class="pyr-small" id="pyr-eup" value="Więcej">
+              <svg viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg">
+                <title>Więcej</title>
+                <line stroke-linecap="round" stroke-linejoin="round" stroke-width="3" x1="13" x2="13" y1="21" y2="4"/>
+                <line stroke-linecap="round" stroke-linejoin="round" stroke-width="3" x1="4" x2="21" y1="13" y2="13"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <svg viewBox="0 0 170 8" xmlns="http://www.w3.org/2000/svg" class="pyr-footers">
+    <path
+      d="m 13.229166,0 v 6.6445554 c 0,0.6976253 0.595272,1.2929443 1.292844,1.2929443 h 10.643479 c 0.697571,0 1.292843,-0.595319 1.292843,-1.2929443 V 0 h -2.117018 v 5.8203163 h -8.99513 V 0 Z"
+    />
+    <path
+      d="M 142.87499,-2.8125004e-8 V 6.6445554 c 0,0.6976253 0.59527,1.2929443 1.29284,1.2929443 h 10.64348 c 0.69757,0 1.29285,-0.595319 1.29285,-1.2929443 V -2.8125004e-8 h -2.11702 V 5.8203163 h -8.99513 V -2.8125004e-8 Z"
+    />
+  </svg>
+</article>
+</body>
+</html>
