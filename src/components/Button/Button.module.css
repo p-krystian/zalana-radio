@@ -1,0 +1,44 @@
+.button {
+  appearance: none;
+  fill: var(--pyr-button-color);
+  stroke: var(--pyr-button-color);
+  color: var(--pyr-button-color);
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  padding: 0.2rem;
+  padding-top: 1.8rem;
+  width: 5.5rem;
+  height: 8.5rem;
+  background: var(--pyr-second-bg);
+  cursor: pointer;
+  border-radius: 0.5rem;
+  border: 1px solid var(--pyr-inner-frame);
+  border-bottom-width: 0.8rem;
+  transform: rotateX(8deg);
+  transition:
+    transform 50ms ease-in-out,
+    border 50ms ease-in-out;
+}
+.button:active,
+.button.clicked {
+  border-top-width: 0.8rem;
+  border-bottom-width: 1px;
+  transform: rotateX(-8deg);
+}
+.button.clicked {
+  pointer-events: none;
+}
+.button.small {
+  width: 4rem;
+  height: 5.5rem;
+  padding: 0.1em;
+  padding-top: 1rem;
+  border-bottom-width: 0.6rem;
+  transform: rotateX(12deg);
+}
+.button.small:active {
+  border-top-width: 0.6rem;
+  border-bottom-width: 1px;
+  transform: rotateX(-12deg);
+}

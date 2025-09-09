@@ -1,0 +1,34 @@
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(var(--_o) * 1px - 0.5em));
+  }
+}
+
+.display {
+  font-family: var(--pyr-font-display);
+  font-size: 4rem;
+  text-align: right;
+  background: var(--pyr-second-bg);
+  color: var(--pyr-display-font);
+  width: 38rem;
+  padding: 1rem;
+  border: 0.5rem solid var(--pyr-inner-frame);
+  border-radius: 1rem;
+}
+.title {
+  overflow: hidden;
+}
+.title span {
+  white-space: nowrap;
+  display: inline-block;
+  min-width: 100%;
+  text-align: center;
+}
+.pyr-title.anime span {
+  animation: marquee calc(calc(var(--_o) / -12 + 1) * 800ms)
+    steps(calc(var(--_o) / -16 + 2), end) alternate infinite;
+  text-align: right;
+}

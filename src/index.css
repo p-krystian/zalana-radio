@@ -1,0 +1,117 @@
+@font-face {
+  src: url("@/assets/Digit.otf");
+  font-family: "Digit";
+  font-display: swap;
+}
+@font-face {
+  src: url("@/assets/SourceCodePro.ttf");
+  font-family: "Source Code Pro";
+  font-display: swap;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+:root {
+  --pyr-outer-frame: #454545; /*#c0c0c0*/
+  --pyr-inner-frame: #454545;
+  --pyr-background: #111111;
+  --pyr-second-bg: #0c0c0c;
+  --pyr-display-font: #00a86b;
+  --pyr-button-color: #8a8a8a;
+
+  --pyr-font-main: "Source Code Pro";
+  --pyr-font-display: "Digit";
+
+  font-size: 3px;
+}
+body {
+  font-family: var(--pyr-font-main);
+  background: #111419;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  color: var(--pyr-button-color);
+}
+body.pyr-iframe {
+  background: transparent;
+}
+main {
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
+main #pyr-antenna,
+main #pyr-footers {
+  fill: var(--pyr-outer-frame);
+  width: 80rem;
+}
+main #pyr-player {
+  border: 2rem solid var(--pyr-outer-frame);
+  background: var(--pyr-background);
+  border-radius: 1rem;
+  width: 80rem;
+  height: 45rem;
+  padding: 1rem;
+  font-size: 3.5rem;
+  display: grid;
+  grid-template-columns: auto auto;
+}
+main #pyr-player > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.pyr-flex-evenly {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
+@media (max-width: 380px) and (max-height: 240px) {
+  :root {
+    font-size: 4px;
+  }
+  main #pyr-antenna,
+  main #pyr-footers {
+    display: none;
+  }
+  main #pyr-player {
+    border: none;
+  }
+}
+@media (max-width: 330px) and (max-height: 210px) {
+  :root {
+    font-size: 3.6px;
+  }
+}
+@media (min-width: 330px) and (min-height: 250px) {
+  :root {
+    font-size: 4px;
+  }
+}
+@media (min-width: 410px) and (min-height: 310px) {
+  :root {
+    font-size: 5px;
+  }
+}
+@media (min-width: 490px) and (min-height: 370px) {
+  :root {
+    font-size: 6px;
+  }
+}
+@media (min-width: 570px) and (min-height: 440px) {
+  :root {
+    font-size: 7px;
+  }
+}
+@media (min-width: 650px) and (min-height: 500px) {
+  :root {
+    font-size: 8px;
+  }
+}

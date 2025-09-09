@@ -1,0 +1,34 @@
+.volume {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.volume input {
+  appearance: none;
+  height: 1rem;
+  border-radius: 1rem;
+  cursor: grab;
+  background: var(--pyr-inner-frame);
+  width: 22rem;
+}
+.volume input::-moz-range-thumb {
+  -moz-appearance: none;
+  appearance: none;
+  height: 4rem;
+  width: 2rem;
+  cursor: grab;
+  border: none;
+  border-radius: 0.5rem;
+  background: var(--pyr-button-color);
+}
+.volume input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  appearance: none;
+  height: 4rem;
+  width: 2rem;
+  cursor: grab;
+  border: none;
+  border-radius: 0.5rem;
+  background: var(--pyr-button-color);
+}

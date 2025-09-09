@@ -1,0 +1,24 @@
+.regulator {
+  font-size: 4.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.regulator input {
+  appearance: none;
+  -moz-appearance: textfield;
+  outline: none;
+  background-color: var(--pyr-second-bg);
+  color: var(--pyr-display-font);
+  font-family: var(--pyr-font-display);
+  font-size: 1em;
+  border: 0.3rem solid var(--pyr-inner-frame);
+  border-radius: 0.2em;
+  text-align: center;
+  width: 6.2rem;
+}
+.regulator .pyr-regulation input::-webkit-outer-spin-button,
+.regulator .pyr-regulation input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
