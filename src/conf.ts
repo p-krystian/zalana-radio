@@ -1,6 +1,10 @@
 const lang = 'pl';
 const moveStep = 5;
 
+const env = {
+  API_URL: import.meta.env.VITE_API_URL
+} as const;
+
 const t = {
   vol: 'VOL',
   less: 'Mniej',
@@ -17,5 +21,6 @@ const t = {
 export {
   lang,
   moveStep,
+  env,
   t
 };
