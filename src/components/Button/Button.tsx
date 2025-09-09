@@ -1,3 +1,4 @@
+import soundClick from '@/utils/soundClick';
 import styles from './Button.module.css';
 
 type ButtonProps = {
@@ -20,6 +21,7 @@ function Button({ children, onClick, small, clicked, value }: ButtonProps) {
       type="button"
       class={classNames}
       onClick={onClick}
+      onMouseDown={soundClick}
       value={value}
     >
       {children}
