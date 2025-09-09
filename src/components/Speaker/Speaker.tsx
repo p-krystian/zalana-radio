@@ -1,7 +1,7 @@
 import styles from './Speaker.module.css';
 
 type SpeakerProps = {
-  playing: boolean;
+  playing?: boolean;
 }
 
 function Speaker({ playing }: SpeakerProps) {

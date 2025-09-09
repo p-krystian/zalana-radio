@@ -15,7 +15,9 @@ const t = {
   stop: 'Stop',
   play: 'Odtwarzaj',
   pause: 'Pauza',
-  forward: 'Przewiń w przód'
+  forward: 'Przewiń w przód',
+  loading: 'Wczytywanie',
+  none: 'Brak sygnału'
 } as const;
 
 export {

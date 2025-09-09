@@ -18,7 +18,7 @@ function Regulator({ desc, value, maxValue, setValue }: RegulatorProps) {
         {desc}
       </label>
       <Button
-        onClick={() => setValue(value > maxValue ? value - 1 : 1)}
+        onClick={() => setValue(Math.max(value - 1, 1))}
         value={t.less}
         small
       >
@@ -37,7 +37,7 @@ function Regulator({ desc, value, maxValue, setValue }: RegulatorProps) {
         onInput={(e) => setValue(+e.currentTarget.value)}
       />
       <Button
-        onClick={() => setValue(value < maxValue ? value + 1 : maxValue)}
+        onClick={() => setValue(Math.min(value + 1, maxValue))}
         value={t.more}
         small
       >

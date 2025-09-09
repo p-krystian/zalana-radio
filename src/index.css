@@ -67,6 +67,11 @@ main #pyr-player > div {
   justify-content: space-evenly;
   align-items: center;
 }
+main #pyr-player > audio {
+  position: absolute;
+  top: 50px;
+  display: none;
+}
 .pyr-flex-evenly {
   display: flex;
   width: 100%;

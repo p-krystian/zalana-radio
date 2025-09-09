@@ -3,7 +3,7 @@ import { env } from "@/conf";
 type EpisodeT = {
   date: Date;
   name: string;
-  url: URL;
+  url: string;
 };
 
 type DataT = EpisodeT[][];
@@ -13,7 +13,7 @@ async function getData() {
 
   try {
     const res = await fetch(env.API_URL, {
-      method: 'GER',
+      method: 'GET',
       cache: 'no-cache',
       headers: {
         'Cache-Control': 'no-cache',
@@ -21,14 +21,16 @@ async function getData() {
       }
     });
     const json = await res.json();
-    for (const season of json) {
-      // I know that this it is not good solution.
-      // TODO: Validate data in right way.
-      data.push(season.map((episode: Record<string, unknown>) => ({
-        date: new Date(episode.date as Date),
-        name: `${episode.name}`,
-        url: new URL(episode.url as string)
-      })))
+    for (const seasonRaw of json) {
+      const season: DataT[number] = [];
+      for (const episodeRaw of seasonRaw) {
+        season.push({
+          date: new Date(episodeRaw.date),
+          name: episodeRaw.name,
+          url: episodeRaw.url,
+        });
+      }
+      data.push(season);
     }
   }
   catch {

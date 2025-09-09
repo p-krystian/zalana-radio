@@ -5,7 +5,7 @@ import preact from '@preact/preset-vite'
 export default defineConfig({
   base: './',
   build: {
-    target: 'es2020',
+    target: 'es2022',
     rollupOptions: {
       input: { app: './player.html' },
     },
@@ -22,5 +22,5 @@ export default defineConfig({
       '@/': '/src/'
     }
   },
-  esbuild: { target: 'es2020' }
+  esbuild: { target: 'es2022' }
 })
