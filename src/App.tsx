@@ -54,7 +54,6 @@ function App() {
           manage={audioManage}
           src={epizode?.url}
           volume={volume}
-          preload="auto"
           onPlay={updatePlayStatus}
           onPlaying={updatePlayStatus}
           onPause={updatePlayStatus}

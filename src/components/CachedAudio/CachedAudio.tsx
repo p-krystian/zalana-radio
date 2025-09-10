@@ -1,5 +1,6 @@
 import { moveStep } from '@/conf';
-import { useCallback, useImperativeHandle, useRef } from 'preact/hooks';
+import { useCallback, useEffect, useImperativeHandle, useRef } from 'preact/hooks';
+import styles from './CachedAudio.module.css';
 
 type TimeListenerT = (sec: number) => unknown;
 type AudioManageT = {
@@ -14,6 +15,8 @@ type AudioManageT = {
   backward: () => unknown;
 };
 type CachedAudioProps = preact.JSX.AudioHTMLAttributes<HTMLAudioElement> & {
+  src: string;
+  preload?: 'auto';
   manage: preact.Ref<AudioManageT>;
   onTimeUpdate?: never;
   onDurationChange?: never;
@@ -21,6 +24,7 @@ type CachedAudioProps = preact.JSX.AudioHTMLAttributes<HTMLAudioElement> & {
 
 const timeListeners = new Set<TimeListenerT>();
 const durationListeners = new Set<TimeListenerT>();
+const cacheLoad = new Set<string>();
 
 function CachedAudio({ manage, ...props }: CachedAudioProps) {
   const currentAudioRef = useRef<HTMLAudioElement>(null);
@@ -73,14 +77,24 @@ function CachedAudio({ manage, ...props }: CachedAudioProps) {
     }
   }, []);
 
+  useEffect(() => {
+    cacheLoad.add(props.src);
+  }, [props.src]);
+
   return (
-    <audio
-      {...props}
-      onTimeUpdate={handleTimeUpdate}
-      onDurationChange={handleDurationUpdate}
-      ref={currentAudioRef}
-      controls={props.controls ?? true}
-    />
+    <div class={styles.cached}>
+      {[...cacheLoad].map((src) => (
+        <audio src={src} controls />
+      ))}
+      <audio
+        {...props}
+        onTimeUpdate={handleTimeUpdate}
+        onDurationChange={handleDurationUpdate}
+        ref={currentAudioRef}
+        controls={props.controls ?? true}
+        preload="auto"
+      />
+    </div>
   );
 }
 
