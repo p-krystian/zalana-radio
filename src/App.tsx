@@ -40,6 +40,9 @@ function App() {
   }, [epizode]);
 
   useEffect(() => {
+    if (window.location !== window.parent.location) {
+      document.body.classList.add('pyr-iframe');
+    }
     getData().then((d) => {
       setData(d);
       setS(d.length);
@@ -52,7 +55,7 @@ function App() {
       {!!epizode && (
         <CachedAudio
           manage={audioManage}
-          src={epizode?.url}
+          src={epizode.url}
           volume={volume}
           onPlay={updatePlayStatus}
           onPlaying={updatePlayStatus}

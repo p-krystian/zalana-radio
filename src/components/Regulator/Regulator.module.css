@@ -17,8 +17,8 @@
   text-align: center;
   width: 6.2rem;
 }
-.regulator .pyr-regulation input::-webkit-outer-spin-button,
-.regulator .pyr-regulation input::-webkit-inner-spin-button {
+.regulator input::-webkit-outer-spin-button,
+.regulator input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }

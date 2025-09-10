@@ -33,7 +33,8 @@ async function getData() {
       data.push(season);
     }
   }
-  catch {
+  catch (e: unknown) {
+    console.warn(`DATA FETCH ERROR!`, e);
     return [] as DataT;
   }
   return data;
