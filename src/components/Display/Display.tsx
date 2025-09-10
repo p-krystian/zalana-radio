@@ -1,6 +1,6 @@
 import { type AudioManageT } from '@/components/CachedAudio/CachedAudio';
 import { lang } from '@/conf';
-import { useEffect, useMemo, useState } from 'preact/hooks';
+import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import styles from './Display.module.css';
 
 type DisplayProps = {
@@ -23,6 +23,8 @@ const time = (sec: number) => {
 function Display({ date, title, manager }: DisplayProps) {
   const [current, setCurrent] = useState(0);
   const [total, setTotal] = useState(0);
+  const [overflow, setOverflow] = useState(0);
+  const titleRef = useRef<HTMLDivElement>(null);
   const displayDate = useMemo(() => (
     (date || new Date(0)).toLocaleDateString(lang)
   ), [date]);
@@ -39,12 +41,23 @@ function Display({ date, title, manager }: DisplayProps) {
     }
   }, [manager]);
 
+  useEffect(() => {
+    const scroll = titleRef.current?.scrollWidth || 0;
+    const client = titleRef.current?.clientWidth || 0;
+
+    setOverflow((Math.max((scroll - client), 0)));
+  }, [title]);
+
   return (
     <div class={styles.display}>
       <span class={styles.date}>
         {displayDate}
       </span>
-      <div class={styles.title}>
+      <div
+        ref={titleRef}
+        className={`${styles.title} ${!!overflow ? styles.marquee : ''}`}
+        style={{ '--_px': overflow }}
+      >
         <span>{title}</span>
       </div>
       <div class={styles.duration}>

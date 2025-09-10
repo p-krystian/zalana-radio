@@ -1,9 +1,12 @@
 @keyframes marquee {
   0% {
-    transform: translateX(0);
+    transform: translateX(0%);
+  }
+  50% {
+    transform: translateX(calc(var(--_px) * -1px));
   }
   100% {
-    transform: translateX(calc(var(--_o) * 1px - 0.5em));
+    transform: translateX(0%);
   }
 }
 
@@ -27,8 +30,12 @@
   min-width: 100%;
   text-align: center;
 }
-.pyr-title.anime span {
-  animation: marquee calc(calc(var(--_o) / -12 + 1) * 800ms)
-    steps(calc(var(--_o) / -16 + 2), end) alternate infinite;
-  text-align: right;
+.marquee span {
+  animation:
+    calc(var(--_px) / 16 * 1.5s)
+    steps(max(1, var(--_px) / 32))
+    1s
+    infinite
+    both
+    marquee;
 }
