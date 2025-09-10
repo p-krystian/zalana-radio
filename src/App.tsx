@@ -1,51 +1,43 @@
 import { t } from '@/conf';
 import getData, { DataT } from '@/utils/dataFetcher';
-import { useEffect, useLayoutEffect, useReducer, useRef, useState } from 'preact/hooks';
+import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
 
+import CachedAudio, { AudioManageT } from '@/components/CachedAudio/CachedAudio';
 import Controls from '@/components/Controls/Controls';
 import Display from '@/components/Display/Display';
 import Regulator from '@/components/Regulator/Regulator';
 import Speaker from '@/components/Speaker/Speaker';
 import Volume from '@/components/Volume/Volume';
 
+type AudioEventT = preact.JSX.TargetedEvent<HTMLAudioElement>;
 type AudioStatusT = 'loading' | 'paused' | 'playing' | 'none';
-type AudioStateT = {
-  status: AudioStatusT;
-  currentTime: number;
-  duration: number;
-};
-type ReducerAction = [
-  'status', AudioStatusT
-] | [
-  'currentTime' | 'duration', number
-];
-
-const initialAudioState: AudioStateT = {
-  status: 'none',
-  currentTime: 0,
-  duration: 0,
-};
-const reducer = (state: AudioStateT, [key, value]: ReducerAction) => ({
-  ...state,
-  [key]: value,
-});
 
 function App() {
   const [data, setData] = useState<DataT>([]);
   const [volume, setVolume] = useState(0.5);
   const [s, setS] = useState(1);
   const [e, setE] = useState(1);
-  const currentAudio = useRef<HTMLAudioElement>(null);
-  const [audioState, dispatch] = useReducer(reducer, initialAudioState);
+  const audioManage = useRef<AudioManageT>(null);
+  const [audioStatus, setAudioStatus] = useState<AudioStatusT>('none');
 
   const epizode = data.at(s - 1)?.at(e - 1);
 
-  useLayoutEffect(() => {
-    dispatch(['duration', currentAudio.current?.duration || 0]);
+  const updatePlayStatus = useCallback((e: AudioEventT) => {
+    setAudioStatus(e.currentTarget.paused ? 'paused' : 'playing');
+  }, []);
+  const setLoading = useCallback(() => {
+    setAudioStatus('loading');
+  }, []);
+  const onEnd = useCallback((e: AudioEventT) => {
+    e.currentTarget.currentTime = 0;
+    updatePlayStatus(e);
+  }, []);
+
+  useEffect(() => {
     if (!epizode) {
-      dispatch(['status', 'none']);
+      setAudioStatus('none');
     }
-  }, [epizode])
+  }, [epizode]);
 
   useEffect(() => {
     getData().then((d) => {
@@ -58,39 +50,33 @@ function App() {
   return (
     <>
       {!!epizode && (
-        <audio
-          ref={currentAudio}
+        <CachedAudio
+          manage={audioManage}
           src={epizode?.url}
           volume={volume}
           preload="auto"
-          onPlay={() => dispatch(['status', 'playing'])}
-          onPlaying={() => dispatch(['status', 'playing'])}
-          onPause={() => dispatch(['status', 'paused'])}
-          onLoadStart={() => dispatch(['status', 'loading'])}
-          onLoadedData={() => dispatch(['status', 'paused'])}
-          onLoadedMetadata={(e) => dispatch(['duration', e.currentTarget.duration])}
-          onTimeUpdate={(e) => dispatch(['currentTime', e.currentTarget.currentTime])}
-          onEnded={(e) => {
-            e.currentTarget.currentTime = 0;
-            dispatch(['status', 'paused']);
-          }}
-          controls
+          onPlay={updatePlayStatus}
+          onPlaying={updatePlayStatus}
+          onPause={updatePlayStatus}
+          onLoadStart={setLoading}
+          onLoadedData={updatePlayStatus}
+          onWaiting={setLoading}
+          onEnded={onEnd}
         />
       )}
       <div>
-        <Speaker playing={audioState.status === 'playing'} />
+        <Speaker playing={audioStatus === 'playing'} />
         <Volume volume={volume} setVolume={setVolume} />
       </div>
       <div>
         <Display
-          title={audioState.status === 'loading' ? t.loading : epizode?.name || t.none}
+          title={audioStatus === 'loading' ? t.loading : epizode?.name || t.none}
           date={epizode?.date}
-          current={audioState.currentTime}
-          total={audioState.duration}
+          manager={audioManage.current}
         />
         <Controls
-          playing={audioState.status === 'playing'}
-          audio={currentAudio.current}
+          playing={audioStatus === 'playing'}
+          manager={audioManage.current}
         />
         <div class="pyr-flex-evenly">
           <Regulator desc={t.s} value={s} setValue={setS} maxValue={data.length + 1} />

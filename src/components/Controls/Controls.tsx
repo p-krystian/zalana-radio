@@ -1,33 +1,17 @@
 import Button from '@/components/Button/Button';
-import { moveStep, t } from '@/conf';
+import { type AudioManageT } from '@/components/CachedAudio/CachedAudio';
+import { t } from '@/conf';
 
 type ControlsProps = {
   playing: boolean;
-  audio?: HTMLAudioElement | null;
+  manager?: AudioManageT | null;
 };
 
-function Controls({ playing, audio }: ControlsProps) {
-  const forward = () => {
-    if (playing && audio) {
-      audio.currentTime += moveStep;
-    }
-  }
-  const backward = () => {
-    if (playing && audio) {
-      audio.currentTime -= moveStep;
-    }
-  }
-  const stop = () => {
-    if (audio) {
-      audio.pause();
-      audio.currentTime = 0;
-    }
-  }
-
+function Controls({ playing, manager }: ControlsProps) {
   return (
     <div class="pyr-flex-evenly">
       <Button
-        onClick={backward}
+        onClick={() => manager?.backward()}
         value={t.backward}
       >
         <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -37,8 +21,8 @@ function Controls({ playing, audio }: ControlsProps) {
         </svg>
       </Button>
       <Button
-        onClick={stop}
-        clicked={!playing && audio?.currentTime === 0}
+        onClick={() => manager?.stop()}
+        clicked={!playing && manager?.getCurrentTime() === 0}
         value={t.stop}
       >
         <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -48,7 +32,7 @@ function Controls({ playing, audio }: ControlsProps) {
         </svg>
       </Button>
       <Button
-        onClick={() => audio?.play()}
+        onClick={() => manager?.play()}
         clicked={playing}
         value={t.play}
       >
@@ -59,8 +43,8 @@ function Controls({ playing, audio }: ControlsProps) {
         </svg>
       </Button>
       <Button
-        onClick={() => audio?.pause()}
-        clicked={!playing && !!audio && audio.currentTime > 0}
+        onClick={() => manager?.pause()}
+        clicked={!playing && !!manager?.getCurrentTime()}
         value={t.pause}
       >
         <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -70,7 +54,7 @@ function Controls({ playing, audio }: ControlsProps) {
         </svg>
       </Button>
       <Button
-        onClick={forward}
+        onClick={() => manager?.forward()}
         value={t.forward}
       >
         <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">

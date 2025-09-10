@@ -1,11 +1,12 @@
+import { type AudioManageT } from '@/components/CachedAudio/CachedAudio';
 import { lang } from '@/conf';
+import { useEffect, useMemo, useState } from 'preact/hooks';
 import styles from './Display.module.css';
 
 type DisplayProps = {
-  date?: Date;
   title: string;
-  current: number;
-  total: number;
+  date?: Date;
+  manager?: AudioManageT | null;
 };
 
 const time = (sec: number) => {
@@ -19,8 +20,24 @@ const time = (sec: number) => {
   return `${pm}:${ps}`;
 }
 
-function Display({ date, title, current, total }: DisplayProps) {
-  const displayDate = date ? date.toLocaleDateString(lang) : '00.00.0000';
+function Display({ date, title, manager }: DisplayProps) {
+  const [current, setCurrent] = useState(0);
+  const [total, setTotal] = useState(0);
+  const displayDate = useMemo(() => (
+    (date || new Date(0)).toLocaleDateString(lang)
+  ), [date]);
+
+  useEffect(() => {
+    const unregisterTotal = manager?.registerDurationUpdate(setTotal);
+    const unregisterCurrent = manager?.registerTimeUpdate(setCurrent);
+
+    return () => {
+      unregisterTotal?.();
+      unregisterCurrent?.();
+      setCurrent(0);
+      setTotal(0);
+    }
+  }, [manager]);
 
   return (
     <div class={styles.display}>
