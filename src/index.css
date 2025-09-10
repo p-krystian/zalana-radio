@@ -1,11 +1,11 @@
 @font-face {
-  src: url("@/assets/Digit.otf");
+  src: url("@/assets/Digit.woff2") format("woff2");
   font-family: "Digit";
   font-display: swap;
 }
 @font-face {
-  src: url("@/assets/SourceCodePro.ttf");
-  font-family: "Source Code Pro";
+  src: url("@/assets/DMMono.ttf") format("woff2");
+  font-family: "DMMono";
   font-display: swap;
 }
 *,
@@ -23,7 +23,7 @@
   --pyr-display-font: #00a86b;
   --pyr-button-color: #8a8a8a;
 
-  --pyr-font-main: "Source Code Pro";
+  --pyr-font-main: "DMMono";
   --pyr-font-display: "Digit";
 
   font-size: 3px;
