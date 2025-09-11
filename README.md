@@ -1,5 +1,5 @@
 <p align="center">
-  <img src=".github/assets/radio.png" alt="Radio Player" />
+  <img src=".github/assets/radio.png" alt="Radio Player" height="240" />
 </p>
 
 # Zalana Radio - Player
