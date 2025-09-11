@@ -4,7 +4,7 @@
   font-display: swap;
 }
 @font-face {
-  src: url("@/assets/DMMono.ttf") format("woff2");
+  src: url("@/assets/DMMono.woff2") format("woff2");
   font-family: "DMMono";
   font-display: swap;
 }
