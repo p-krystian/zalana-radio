@@ -52,20 +52,18 @@ function App() {
 
   return (
     <>
-      {!!epizode && (
-        <CachedAudio
-          manage={audioManage}
-          src={epizode.url}
-          volume={volume}
-          onPlay={updatePlayStatus}
-          onPlaying={updatePlayStatus}
-          onPause={updatePlayStatus}
-          onLoadStart={setLoading}
-          onLoadedData={updatePlayStatus}
-          onWaiting={setLoading}
-          onEnded={onEnd}
-        />
-      )}
+      <CachedAudio
+        manage={audioManage}
+        src={epizode?.url}
+        volume={volume}
+        onPlay={updatePlayStatus}
+        onPlaying={updatePlayStatus}
+        onPause={updatePlayStatus}
+        onLoadStart={setLoading}
+        onLoadedData={updatePlayStatus}
+        onWaiting={setLoading}
+        onEnded={onEnd}
+      />
       <div>
         <Speaker playing={audioStatus === 'playing'} />
         <Volume volume={volume} setVolume={setVolume} />

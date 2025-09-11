@@ -15,7 +15,7 @@ type AudioManageT = {
   backward: () => unknown;
 };
 type CachedAudioProps = preact.JSX.AudioHTMLAttributes<HTMLAudioElement> & {
-  src: string;
+  src?: string;
   preload?: 'auto';
   manage: preact.Ref<AudioManageT>;
   onTimeUpdate?: never;
@@ -75,25 +75,29 @@ function CachedAudio({ manage, ...props }: CachedAudioProps) {
       forward,
       backward
     }
-  }, []);
+  }, [props.src]);
 
   useEffect(() => {
-    cacheLoad.add(props.src);
+    if (props.src) {
+      cacheLoad.add(props.src);
+    }
   }, [props.src]);
 
   return (
     <div class={styles.cached}>
       {[...cacheLoad].map((src) => (
-        <audio src={src} controls />
+        <audio key={src} src={src} controls />
       ))}
-      <audio
-        {...props}
-        onTimeUpdate={handleTimeUpdate}
-        onDurationChange={handleDurationUpdate}
-        ref={currentAudioRef}
-        controls={props.controls ?? true}
-        preload="auto"
-      />
+      {!!props.src && (
+        <audio
+          {...props}
+          onTimeUpdate={handleTimeUpdate}
+          onDurationChange={handleDurationUpdate}
+          ref={currentAudioRef}
+          controls={props.controls ?? true}
+          preload="auto"
+        />
+      )}
     </div>
   );
 }
