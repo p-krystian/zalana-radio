@@ -24,8 +24,12 @@ async function getData() {
     for (const seasonRaw of json) {
       const season: DataT[number] = [];
       for (const episodeRaw of seasonRaw) {
+        const episodeDate = new Date(episodeRaw.date);
+        if (episodeDate.getTime() > Date.now()) {
+          continue;
+        }
         season.push({
-          date: new Date(episodeRaw.date),
+          date: episodeDate,
           name: episodeRaw.name,
           url: episodeRaw.url,
         });
