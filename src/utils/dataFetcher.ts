@@ -15,9 +15,10 @@ async function getData() {
     const res = await fetch(env.API_URL, {
       method: 'GET',
       cache: 'no-cache',
+      credentials: 'omit',
+      mode: 'cors',
       headers: {
-        'Cache-Control': 'no-cache',
-        'Access-Control-Allow-Origin': '*'
+        'Accept': 'application/json'
       }
     });
     const json = await res.json();
