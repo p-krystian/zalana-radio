@@ -1,6 +1,6 @@
 import { type AudioManageT } from '@/components/CachedAudio/CachedAudio';
 import { lang } from '@/conf';
-import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import styles from './Display.module.css';
 
 type DisplayProps = {
@@ -29,6 +29,13 @@ function Display({ date, title, manager }: DisplayProps) {
     (date || new Date(0)).toLocaleDateString(lang)
   ), [date]);
 
+  const checkOverflow = useCallback(() => {
+    const scroll = titleRef.current?.scrollWidth || 0;
+    const client = titleRef.current?.clientWidth || 0;
+
+    setOverflow((Math.max((scroll - client), 0)));
+  }, [title]);
+
   useEffect(() => {
     const unregisterTotal = manager?.registerDurationUpdate(setTotal);
     const unregisterCurrent = manager?.registerTimeUpdate(setCurrent);
@@ -42,11 +49,14 @@ function Display({ date, title, manager }: DisplayProps) {
   }, [manager]);
 
   useEffect(() => {
-    const scroll = titleRef.current?.scrollWidth || 0;
-    const client = titleRef.current?.clientWidth || 0;
+    checkOverflow();
 
-    setOverflow((Math.max((scroll - client), 0)));
-  }, [title]);
+    document.fonts.addEventListener('load', checkOverflow);
+
+    return () => {
+      document.fonts.removeEventListener('load', checkOverflow);
+    }
+  }, [checkOverflow]);
 
   return (
     <div class={styles.display}>
