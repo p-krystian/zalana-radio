@@ -9,7 +9,7 @@ import Regulator from '@/components/Regulator/Regulator';
 import Speaker from '@/components/Speaker/Speaker';
 import Volume from '@/components/Volume/Volume';
 
-type AudioEventT = preact.JSX.TargetedEvent<HTMLAudioElement>;
+type AudioEventT = preact.TargetedEvent<HTMLAudioElement>;
 type AudioStatusT = 'loading' | 'paused' | 'playing' | 'none';
 
 function App() {
@@ -25,13 +25,18 @@ function App() {
   const updatePlayStatus = useCallback((e: AudioEventT) => {
     setAudioStatus(e.currentTarget.paused ? 'paused' : 'playing');
   }, []);
+
   const setLoading = useCallback(() => {
     setAudioStatus('loading');
   }, []);
-  const onEnd = useCallback((e: AudioEventT) => {
-    e.currentTarget.currentTime = 0;
-    updatePlayStatus(e);
-  }, []);
+
+  const onEnd = useCallback(
+    (e: AudioEventT) => {
+      e.currentTarget.currentTime = 0;
+      updatePlayStatus(e);
+    },
+    [updatePlayStatus],
+  );
 
   useEffect(() => {
     if (!epizode) {
@@ -74,16 +79,13 @@ function App() {
           date={epizode?.date}
           manager={audioManage.current}
         />
-        <Controls
-          playing={audioStatus === 'playing'}
-          manager={audioManage.current}
-        />
+        <Controls playing={audioStatus === 'playing'} manager={audioManage.current} />
         <div class="pyr-flex-evenly">
           <Regulator desc={t.s} value={s} setValue={setS} maxValue={data.length + 1} />
           <Regulator desc={t.e} value={e} setValue={setE} maxValue={10} />
         </div>
       </div>
     </>
-  )
+  );
 }
 export default App;

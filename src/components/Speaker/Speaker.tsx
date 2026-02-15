@@ -2,7 +2,7 @@ import styles from './Speaker.module.css';
 
 type SpeakerProps = {
   playing?: boolean;
-}
+};
 
 function Speaker({ playing }: SpeakerProps) {
   const membraneClass = `${styles.membrane} ${playing ? styles.anime : ''}`;
@@ -16,7 +16,7 @@ function Speaker({ playing }: SpeakerProps) {
         <circle cx="48" cy="464" r="8" />
         <circle cx="464" cy="464" r="8" />
       </svg>
-      <div class={membraneClass}></div>
+      <div class={membraneClass} />
     </div>
   );
 }

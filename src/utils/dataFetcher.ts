@@ -1,4 +1,4 @@
-import { env } from "@/conf";
+import { env } from '@/conf';
 
 type EpisodeT = {
   date: Date;
@@ -18,8 +18,8 @@ async function getData() {
       credentials: 'omit',
       mode: 'cors',
       headers: {
-        'Accept': 'application/json'
-      }
+        Accept: 'application/json',
+      },
     });
     const json = await res.json();
     for (const seasonRaw of json) {
@@ -37,8 +37,7 @@ async function getData() {
       }
       data.push(season);
     }
-  }
-  catch (e: unknown) {
+  } catch (e: unknown) {
     console.warn(`DATA FETCH ERROR!`, e);
     return [] as DataT;
   }

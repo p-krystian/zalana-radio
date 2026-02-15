@@ -1,7 +1,7 @@
 import click from '@/assets/click.wav';
 
 const audio = new Audio(click);
-audio.preload = "auto";
+audio.preload = 'auto';
 audio.volume = 0.2;
 audio.load();
 

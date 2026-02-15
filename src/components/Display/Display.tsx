@@ -18,22 +18,22 @@ const time = (sec: number) => {
   const pm = m > 9 ? m : `0${m}`;
 
   return `${pm}:${ps}`;
-}
+};
 
 function Display({ date, title, manager }: DisplayProps) {
   const [current, setCurrent] = useState(0);
   const [total, setTotal] = useState(0);
   const [overflow, setOverflow] = useState(0);
   const titleRef = useRef<HTMLDivElement>(null);
-  const displayDate = useMemo(() => (
-    (date || new Date(0)).toLocaleDateString(lang)
-  ), [date]);
+  const displayDate = useMemo(() => (date || new Date(0)).toLocaleDateString(lang), [date]);
 
   const checkOverflow = useCallback(() => {
     const scroll = titleRef.current?.scrollWidth || 0;
     const client = titleRef.current?.clientWidth || 0;
 
-    setOverflow((Math.max((scroll - client), 0)));
+    setOverflow(Math.max(scroll - client, 0));
+    // Overflow calculation must be done with every title change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [title]);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ function Display({ date, title, manager }: DisplayProps) {
       unregisterCurrent?.();
       setCurrent(0);
       setTotal(0);
-    }
+    };
   }, [manager]);
 
   useEffect(() => {
@@ -55,29 +55,23 @@ function Display({ date, title, manager }: DisplayProps) {
 
     return () => {
       document.fonts.removeEventListener('load', checkOverflow);
-    }
+    };
   }, [checkOverflow]);
 
   return (
     <div class={styles.display}>
-      <span class={styles.date}>
-        {displayDate}
-      </span>
+      <span class={styles.date}>{displayDate}</span>
       <div
         ref={titleRef}
-        className={`${styles.title} ${!!overflow ? styles.marquee : ''}`}
+        className={`${styles.title} ${overflow ? styles.marquee : ''}`}
         style={{ '--_px': overflow }}
       >
         <span>{title}</span>
       </div>
       <div class={styles.duration}>
-        <span class={styles.current}>
-          {time(current)}
-        </span>
+        <span class={styles.current}>{time(current)}</span>
         {' / '}
-        <span class={styles.total}>
-          {time(total)}
-        </span>
+        <span class={styles.total}>{time(total)}</span>
       </div>
     </div>
   );

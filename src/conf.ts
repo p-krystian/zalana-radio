@@ -2,7 +2,7 @@ const lang = 'pl';
 const moveStep = 5;
 
 const env = {
-  API_URL: import.meta.env.VITE_API_URL || ''
+  API_URL: import.meta.env.VITE_API_URL || '',
 } as const;
 
 const t = {
@@ -17,12 +17,7 @@ const t = {
   pause: 'Pauza',
   forward: 'Przewiń w przód',
   loading: 'Wczytywanie',
-  none: 'Brak sygnału'
+  none: 'Brak sygnału',
 } as const;
 
-export {
-  lang,
-  moveStep,
-  env,
-  t
-};
+export { lang, moveStep, env, t };

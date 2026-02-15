@@ -5,8 +5,8 @@ import styles from './CachedAudio.module.css';
 type TimeListenerT = (sec: number) => unknown;
 type AudioManageT = {
   getCurrentTime: () => number;
-  registerTimeUpdate: (listener: TimeListenerT) => (() => void);
-  registerDurationUpdate: (listener: TimeListenerT) => (() => void);
+  registerTimeUpdate: (listener: TimeListenerT) => () => void;
+  registerDurationUpdate: (listener: TimeListenerT) => () => void;
 
   play: () => unknown;
   pause: () => unknown;
@@ -14,7 +14,7 @@ type AudioManageT = {
   forward: () => unknown;
   backward: () => unknown;
 };
-type CachedAudioProps = preact.JSX.AudioHTMLAttributes<HTMLAudioElement> & {
+type CachedAudioProps = preact.AudioHTMLAttributes<HTMLAudioElement> & {
   src?: string;
   preload?: 'auto';
   manage: preact.Ref<AudioManageT>;
@@ -29,11 +29,12 @@ const cacheLoad = new Set<string>();
 function CachedAudio({ manage, ...props }: CachedAudioProps) {
   const currentAudioRef = useRef<HTMLAudioElement>(null);
 
-  const handleTimeUpdate = useCallback((e: preact.JSX.TargetedEvent<HTMLAudioElement>) => {
-    timeListeners.forEach(tL => tL(e.currentTarget.currentTime));
+  const handleTimeUpdate = useCallback((e: preact.TargetedEvent<HTMLAudioElement>) => {
+    timeListeners.forEach((tL) => tL(e.currentTarget.currentTime));
   }, []);
-  const handleDurationUpdate = useCallback((e: preact.JSX.TargetedEvent<HTMLAudioElement>) => {
-    durationListeners.forEach(dL => dL(e.currentTarget.duration));
+
+  const handleDurationUpdate = useCallback((e: preact.TargetedEvent<HTMLAudioElement>) => {
+    durationListeners.forEach((dL) => dL(e.currentTarget.duration));
   }, []);
 
   useImperativeHandle(manage, () => {
@@ -42,28 +43,28 @@ function CachedAudio({ manage, ...props }: CachedAudioProps) {
     const registerTimeUpdate = (listener: TimeListenerT) => {
       timeListeners.add(listener);
       return () => timeListeners.delete(listener);
-    }
+    };
     const registerDurationUpdate = (listener: TimeListenerT) => {
       durationListeners.add(listener);
       return () => durationListeners.delete(listener);
-    }
+    };
 
     const forward = () => {
       if (audio && !audio.paused) {
         audio.currentTime += moveStep;
       }
-    }
+    };
     const backward = () => {
       if (audio && !audio.paused) {
         audio.currentTime -= moveStep;
       }
-    }
+    };
     const stop = () => {
       if (audio) {
         audio.pause();
         audio.currentTime = 0;
       }
-    }
+    };
     return {
       getCurrentTime: () => currentAudioRef.current?.currentTime || 0,
       registerTimeUpdate,
@@ -73,8 +74,11 @@ function CachedAudio({ manage, ...props }: CachedAudioProps) {
       pause: () => currentAudioRef.current?.pause(),
       stop,
       forward,
-      backward
-    }
+      backward,
+    };
+    // Note: The dependency array includes props.src to ensure the imperative handle is updated
+    // whenever the src property changes, allowing proper audio source management.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.src]);
 
   useEffect(() => {

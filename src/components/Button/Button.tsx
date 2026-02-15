@@ -10,11 +10,9 @@ type ButtonProps = {
 };
 
 function Button({ children, onClick, small, clicked, value }: ButtonProps) {
-  const classNames = [
-    styles.button,
-    small ? styles.small : '',
-    clicked ? styles.clicked : ''
-  ].join(' ');
+  const classNames = [styles.button, small ? styles.small : '', clicked ? styles.clicked : ''].join(
+    ' ',
+  );
 
   return (
     <button
